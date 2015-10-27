@@ -1,4 +1,4 @@
-defmodule Alumno do
+defmodule Docente do
   def start(id) do
     spawn fn -> main(id) end
   end
@@ -6,11 +6,11 @@ defmodule Alumno do
   def main(id) do
     receive do
       {:recibirConsulta, remitente, descripcion} ->
-        IO.puts "Alumno #{id}:Me llego la consulta #{descripcion}"
+        IO.puts "Docente #{id}: Me llego la consulta #{descripcion}"
         main(id)
 
       {:recibirRespuesta, descripcion} ->
-        IO.puts "Alumno #{id}:Me llego la respuesta #{descripcion}"
+        IO.puts "Docente #{id}: Me llego la respuesta #{descripcion}"
         main(id)
 
     end
