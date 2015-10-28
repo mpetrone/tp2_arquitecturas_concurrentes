@@ -15,13 +15,18 @@ defmodule Plataforma do
           main(alumnos, Map.put(docentes, docenteId, ref))
 
       {:consulta, remitente, descripcion} ->
-          Enum.map(alumnos, fn{k, ref} -> send ref, {:recibirConsulta, remitente, descripcion} end)
-          Enum.map(docentes, fn{k, ref} -> send ref, {:recibirConsulta, remitente, descripcion} end)
+          idConsulta = :random.uniform 100000
+          Enum.map(alumnos, fn{k, ref} -> send ref, {:recibirConsulta, idConsulta, remitente, descripcion} end)
+          Enum.map(docentes, fn{k, ref} -> send ref, {:recibirConsulta, idConsulta, remitente, descripcion} end)
           main(alumnos, docentes)
 
-      {:respuesta, docenteId, descripcion} ->
-          Enum.map(alumnos, fn{k, ref} -> send ref, {:recibirRespuesta, descripcion} end)
-          Enum.map(docentes, fn{k, ref} -> send ref, {:recibirRespuesta, descripcion} end)
+     {:empezarRespuesta, idConsulta, remitente} ->
+          Enum.map(docentes, fn{k, ref} -> send ref, {:empezaronRespuesta, idConsulta} end)
+          main(alumnos, docentes)
+
+      {:finalizarRespuesta, idConsulta, remitente, descripcion} ->
+          Enum.map(alumnos, fn{k, ref} -> send ref, {:recibirRespuesta, idConsulta, descripcion} end)
+          Enum.map(docentes, fn{k, ref} -> send ref, {:recibirRespuesta, idConsulta, descripcion} end)
           main(alumnos, docentes)
 
     end
