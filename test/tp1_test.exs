@@ -2,7 +2,7 @@ defmodule TP1Test do
   use ExUnit.Case
 
   test "test" do
-    plataforma = Plataforma.start(%{}, %{})
+    plataforma = Plataforma.start()
     alumno1 = Alumno.start(1, plataforma)
     alumno2 = Alumno.start(2, plataforma)
     alumno3 = Alumno.start(3, plataforma)
